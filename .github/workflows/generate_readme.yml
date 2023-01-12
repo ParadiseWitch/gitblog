@@ -12,6 +12,9 @@ on:
     paths:
       - main.py
 
+permissions:
+  contents: write
+
 env:
   GITHUB_NAME: ParadiseWitch
   GITHUB_EMAIL: zhp92@outlook.com
