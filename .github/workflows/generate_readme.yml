@@ -14,7 +14,7 @@ on:
 
 env:
   GITHUB_NAME: ParadiseWitch
-  GITHUB_EMAIL: zhp92@outlook.com.com
+  GITHUB_EMAIL: zhp92@outlook.com
 
 jobs:
   sync:
