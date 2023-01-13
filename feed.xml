@@ -1,3 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/ParadiseWitch/gitblog</id><title>RSS feed of ParadiseWitch's gitblog</title><updated>2023-01-12T03:01:19.729694+00:00</updated><author><name>ParadiseWitch</name><email>zhp92@outlook.com</email></author><link href="https://github.com/ParadiseWitch/gitblog"/><link href="https://raw.githubusercontent.com/ParadiseWitch/gitblog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/ParadiseWitch/gitblog/issues/1</id><title>test</title><updated>2023-01-12T03:01:20.034654+00:00</updated><content type="html"><![CDATA[<h2>xxxxxxxxxxxxxxxxxxxxxxxxxxx</h2>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/ParadiseWitch/gitblog</id><title>RSS feed of ParadiseWitch's gitblog</title><updated>2023-01-13T16:26:13.350053+00:00</updated><author><name>ParadiseWitch</name><email>zhp92@outlook.com</email></author><link href="https://github.com/ParadiseWitch/gitblog"/><link href="https://raw.githubusercontent.com/ParadiseWitch/gitblog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/ParadiseWitch/gitblog/issues/1</id><title>2023 OKR</title><updated>2023-01-13T16:26:13.738203+00:00</updated><content type="html"><![CDATA[<h1>2023 OKR</h1>
+<h2>奖励</h2>
+<p>60: switch
+75: hhkb
+120: apple watch</p>
+<h2>健身</h2>
+<ul>
+<li><input disabled="" type="checkbox"> okr1(20): 瘦10斤</li>
+<li><input disabled="" type="checkbox"> okr2(20): 瘦20斤</li>
+<li><input disabled="" type="checkbox"> okr3(30): 瘦40斤</li>
+<li><input disabled="" type="checkbox"> okr4(35): 腹肌</li>
+</ul>
+<h2>英语</h2>
+<ul>
+<li><input disabled="" type="checkbox"> okr1(20): 单词1000个</li>
+<li><input disabled="" type="checkbox"> okr2(20): 单词2000个</li>
+<li><input disabled="" type="checkbox"> okr3(35): 熟练阅读，听懂口语，无障碍看生肉</li>
+</ul>
+<h2>日语</h2>
+<ul>
+<li><input disabled="" type="checkbox"> okr1(10): 完成基础</li>
+<li><input disabled="" type="checkbox"> okr2(20): 学会唱日语歌曲（Rage your dream）</li>
+<li><input disabled="" type="checkbox"> okr3(35): 无障碍看生肉</li>
+</ul>
+<h2>代码</h2>
+<ul>
+<li><input disabled="" type="checkbox"> okr1(25): 完成maid_comic_home</li>
+<li><input disabled="" type="checkbox"> okr2(30): 看技术书5本</li>
+<li><input disabled="" type="checkbox"> okr3(30): 使用unity做游戏</li>
+<li><input disabled="" type="checkbox"> okr4(40): 学习Rust，尝试使用Tauri写一个桌面程序</li>
+<li><input disabled="" type="checkbox"> okr5(50): 尝试活跃参与著名开源项目</li>
+</ul>
+<h1>工作</h1>
+<ul>
+<li><input disabled="" type="checkbox"> okr1(20): 一份更有技术提升的工作</li>
+<li><input disabled="" type="checkbox"> okr2(30): 薪水翻倍</li>
+<li><input disabled="" type="checkbox"> ork3(40): WFH</li>
+<li><input disabled="" type="checkbox"> okr4(40): 半个救火队员</li>
+</ul>
 ]]></content><link href="https://github.com/ParadiseWitch/gitblog/issues/1" rel="alternate"/><category term="TODO"/><published>2023-01-12T02:34:51+00:00</published></entry></feed>
