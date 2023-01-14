@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/ParadiseWitch/gitblog</id><title>RSS feed of ParadiseWitch's gitblog</title><updated>2023-01-13T16:30:18.983203+00:00</updated><author><name>ParadiseWitch</name><email>zhp92@outlook.com</email></author><link href="https://github.com/ParadiseWitch/gitblog"/><link href="https://raw.githubusercontent.com/ParadiseWitch/gitblog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/ParadiseWitch/gitblog/issues/1</id><title>2023 OKR</title><updated>2023-01-13T16:30:19.254726+00:00</updated><content type="html"><![CDATA[<h1>2023 OKR</h1>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/ParadiseWitch/gitblog</id><title>RSS feed of ParadiseWitch's gitblog</title><updated>2023-01-14T13:15:49.441725+00:00</updated><author><name>ParadiseWitch</name><email>zhp92@outlook.com</email></author><link href="https://github.com/ParadiseWitch/gitblog"/><link href="https://raw.githubusercontent.com/ParadiseWitch/gitblog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/ParadiseWitch/gitblog/issues/1</id><title>2023 OKR</title><updated>2023-01-14T13:15:49.640957+00:00</updated><content type="html"><![CDATA[<h1>2023 OKR</h1>
 <h2>奖励</h2>
 <p>60: switch
 75: hhkb
@@ -25,6 +25,7 @@
 </ul>
 <h2>代码</h2>
 <ul>
+<li><input disabled="" type="checkbox"> okr1(20): 完成600道leetcode，之后每多完成100道题就+5，当前353</li>
 <li><input disabled="" type="checkbox"> okr1(25): 完成maid_comic_home</li>
 <li><input disabled="" type="checkbox"> okr2(30): 看技术书5本</li>
 <li><input disabled="" type="checkbox"> okr3(30): 使用unity做游戏</li>
@@ -34,8 +35,8 @@
 <h1>工作</h1>
 <ul>
 <li><input disabled="" type="checkbox"> okr1(20): 一份更有技术提升的工作</li>
-<li><input disabled="" type="checkbox"> okr2(30): 薪水翻倍</li>
-<li><input disabled="" type="checkbox"> ork3(40): WFH</li>
+<li><input disabled="" type="checkbox"> okr2(40): 薪水翻倍</li>
+<li><input disabled="" type="checkbox"> ork3(50): WFH</li>
 <li><input disabled="" type="checkbox"> okr4(40): 半个救火队员</li>
 </ul>
 ]]></content><link href="https://github.com/ParadiseWitch/gitblog/issues/1" rel="alternate"/><category term="OKR"/><published>2023-01-12T02:34:51+00:00</published></entry></feed>
