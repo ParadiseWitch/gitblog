@@ -5,9 +5,7 @@ Maiiiiiid
 | Name | Link | Desc | 
  | ---- | ---- | ---- |
 ## 最近更新
-- [书签记录](https://github.com/ParadiseWitch/gitblog/issues/3)--2023-01-26
+- [spring-session的 `removeAttribute` 方法踩坑](https://github.com/ParadiseWitch/gitblog/issues/4)--2023-04-14
 - [2023 OKR](https://github.com/ParadiseWitch/gitblog/issues/1)--2023-01-12
-## Bookmark
-- [书签记录](https://github.com/ParadiseWitch/gitblog/issues/3)--2023-01-26
 ## OKR
 - [2023 OKR](https://github.com/ParadiseWitch/gitblog/issues/1)--2023-01-12

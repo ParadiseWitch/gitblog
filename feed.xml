@@ -1,6 +1,72 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/ParadiseWitch/gitblog</id><title>RSS feed of ParadiseWitch's gitblog</title><updated>2023-01-26T09:04:17.800982+00:00</updated><author><name>ParadiseWitch</name><email>zhp92@outlook.com</email></author><link href="https://github.com/ParadiseWitch/gitblog"/><link href="https://raw.githubusercontent.com/ParadiseWitch/gitblog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/ParadiseWitch/gitblog/issues/3</id><title>书签记录</title><updated>2023-01-26T09:04:18.218367+00:00</updated><content type="html"><![CDATA[<p>这个 Issue 记录自己今年收藏的书签。或者有意思的东西。</p>
-]]></content><link href="https://github.com/ParadiseWitch/gitblog/issues/3" rel="alternate"/><category term="Bookmark"/><published>2023-01-26T09:03:49+00:00</published></entry><entry><id>https://github.com/ParadiseWitch/gitblog/issues/1</id><title>2023 OKR</title><updated>2023-01-26T09:04:18.453188+00:00</updated><content type="html"><![CDATA[<h1>2023 OKR</h1>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/ParadiseWitch/gitblog</id><title>RSS feed of ParadiseWitch's gitblog</title><updated>2023-04-14T08:48:16.525301+00:00</updated><author><name>ParadiseWitch</name><email>zhp92@outlook.com</email></author><link href="https://github.com/ParadiseWitch/gitblog"/><link href="https://raw.githubusercontent.com/ParadiseWitch/gitblog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/ParadiseWitch/gitblog/issues/4</id><title>spring-session的 `removeAttribute` 方法踩坑</title><updated>2023-04-14T08:48:16.761072+00:00</updated><content type="html"><![CDATA[<h1>问题场景还原</h1>
+<p><strong>背景</strong>：现在有一个服务使用了spring-session。服务有一个需求，需要在一个业务中将一个数据保存在用户session中的一个属性上，然后再在另一个业务将数据从redis中取出。类似以下模式：</p>
+<ol>
+<li>当用户操作第一次时，attr1作为key，数据1作为value会被添加到session中</li>
+<li>当用户操作第一次时，attr2作为key，数据2作为value会被添加到session中</li>
+</ol>
+<p>……以此类推。以上是正常需求。</p>
+<p>但是现在出现了一个问题：短时间内有一个用户操作次数过多，导致这个数据不断地在sessionMap中添加键值对，导致redis中这个人的对应的sessionMap越来越大，最后获取这个人的session时导致请求redis超时。</p>
+<h1>解决方案</h1>
+<p>这个问题其实算是设计问题，只要将原来将存在redis中的数据形式改为如下形式就可以：</p>
+<pre><code>key：sessionId+attrName1
+value: 数据1
+</code></pre>
+<p>这样的话一条redis的数据也不会像sessionMap那样无限增加，造成请求超时。<br />
+虽然这样可以直接解决根本问题，但是我还是想基于原来的设计修改一下。</p>
+<h1>尝试基于原有设计进行修改</h1>
+<p>由于这个数据存过后只会使用一次，那么我在使用完成后在sessionMap中删除这个属性就好了</p>
+<p>伪代码如下：</p>
+<pre><code class="language-java">// 唯一一次的获取session中这个属性的值
+request.getSession().removeAttribute()
+</code></pre>
+<p>想法是好的，但是事与愿违。经过测试后发现，好家伙，<code>removeAttribute</code>方法确实把内存中的session中的属性删除了，但是更新到redis后，发现只是在sessionMap只把对应属性的value设置成了null：</p>
+<p><img src="https://user-images.githubusercontent.com/37146904/231990280-c811d874-2904-4139-a6ea-68c8f8ec4454.png" alt="image" /></p>
+<p>我对这样的行为感到奇怪，于是找到了一个issue：  <a href="https://github.com/spring-projects/spring-session/issues/1331">https://github.com/spring-projects/spring-session/issues/1331</a></p>
+<p>没办法，我尝试在获取一次session中这个属性的值之后就删除这个属性，代码like下面这样：</p>
+<pre><code class="language-java">// 唯一一次的获取session中这个属性的值
+request.getSession().removeAttribute()
+redisCacheHashService.sessionHmDelete(request.getSession().getId(), attrName)
+</code></pre>
+<p><code>sessionHmDelete</code>是一个封装了一个使用<code>redisTemplate</code>直接删除redis中sessionMap中key的函数，代码类似下面这样：</p>
+<pre><code class="language-java">public void sessionHmDelete(string sessionId,String attrName){
+	String redisKey = &quot;spring:session:sessions:&quot;+ sessionId;
+	String mapKey = &quot;sessionAttr:&quot; + attrName;
+	// get redisTemplate 
+	RedisTemplate redisTemplate = redisTemplateService.getRedisTemplate(0);
+	redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+	redisTemplate.sethashValueserializer(new JdkSerializationRedisSerializer());
+	redisTemplate.afterPropertiesSet();
+	redisTemplate.opsForHash().delete( redisKey, mapKey);
+}
+</code></pre>
+<p>经过测试后发现通过这段代码后，redis依旧没有删除key，只是把value置为了null。</p>
+<p>很奇怪，继续查看源码。</p>
+<ol>
+<li>
+<p><code>removeAttribute</code>方法源码，可以看到这里<code>putAndFlush</code>第二个参数传入的为 null</p>
+<p><img src="https://user-images.githubusercontent.com/37146904/231990280-c811d874-2904-4139-a6ea-68c8f8ec4454.png" alt="image" /></p>
+</li>
+<li>
+<p><code>putAndFlush</code>方法源码，其中<code>delta</code>是一个 map，临时记录改变的数据，方便等到更新时将所有变动更新到 redis 中。调用<code>removeAttribute</code>后，这个 map 就保存了一个键值对（key，null）</p>
+<p><img src="https://user-images.githubusercontent.com/37146904/231990892-1a405e40-6392-4b84-8de0-03ea27c8a89b.png" alt="image" /></p>
+</li>
+<li>
+<p><code>flushImmediateIfNecessary</code>方法源码，更新时并不是马上一调用<code>removeAttribute</code>就会马上更新，默认时<code>RedisFlushMode</code>配置为<code>ON_SAVE</code>。</p>
+<p><img src="https://user-images.githubusercontent.com/37146904/231991060-79d9dd9f-8a7a-4aa2-a2d8-8c03abbd44d0.png" alt="image" /></p>
+</li>
+<li>
+<p>由于不是立马更新到 redis，这个<code>saveDelta</code>方法会在我们手动使用 redisTemplate 删除 redis 中 session 中的属性后执行，于是此时又会将 delta 变动信息 put 到 redis 中，最终会将空值 put 到这个属性上。</p>
+<p>修改配置方法：</p>
+<pre><code class="language-xml">&lt;bean class=&quot;org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration&quot;&gt;
+  &lt;property name=&quot;redisFlushMode&quot; value=&quot;IMMEDIATE&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+</li>
+</ol>
+<p>但是spring-session的配置不是说改就能改的，需要权衡可能对现有业务的影响。所以改配置也不是明智之举。</p>
+<p>那么至于<code>RedisFlushMode</code>为<code>ON_SAVE</code>的情况下，什么时候才会调用<code>saveDelta</code>方法呢？这个问题我就没有深入研究下去了，暂时没有测试出来，那天有时间了再研究吧。</p>
+]]></content><link href="https://github.com/ParadiseWitch/gitblog/issues/4" rel="alternate"/><published>2023-04-14T08:47:44+00:00</published></entry><entry><id>https://github.com/ParadiseWitch/gitblog/issues/1</id><title>2023 OKR</title><updated>2023-04-14T08:48:16.896806+00:00</updated><content type="html"><![CDATA[<h1>2023 OKR</h1>
 <h2>奖励</h2>
 <p>60: switch
 75: hhkb
