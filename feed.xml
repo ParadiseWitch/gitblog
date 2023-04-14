@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/ParadiseWitch/gitblog</id><title>RSS feed of ParadiseWitch's gitblog</title><updated>2023-04-14T08:52:08.408483+00:00</updated><author><name>ParadiseWitch</name><email>zhp92@outlook.com</email></author><link href="https://github.com/ParadiseWitch/gitblog"/><link href="https://raw.githubusercontent.com/ParadiseWitch/gitblog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/ParadiseWitch/gitblog/issues/4</id><title>spring-session的 `removeAttribute` 方法踩坑</title><updated>2023-04-14T08:52:08.631870+00:00</updated><content type="html"><![CDATA[<h1>问题场景还原</h1>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/ParadiseWitch/gitblog</id><title>RSS feed of ParadiseWitch's gitblog</title><updated>2023-04-14T09:16:19.646867+00:00</updated><author><name>ParadiseWitch</name><email>zhp92@outlook.com</email></author><link href="https://github.com/ParadiseWitch/gitblog"/><link href="https://raw.githubusercontent.com/ParadiseWitch/gitblog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/ParadiseWitch/gitblog/issues/4</id><title>spring-session的 `removeAttribute` 方法踩坑</title><updated>2023-04-14T09:16:19.835183+00:00</updated><content type="html"><![CDATA[<h1>问题场景还原</h1>
 <p><strong>背景</strong>：现在有一个服务使用了spring-session。服务有一个需求，需要在一个业务中将一个数据保存在用户session中的一个属性上，然后再在另一个业务将数据从redis中取出。类似以下模式：</p>
 <ol>
 <li>当用户操作第一次时，attr1作为key，数据1作为value会被添加到session中</li>
@@ -22,7 +22,7 @@ request.getSession().removeAttribute()
 </code></pre>
 <p>想法是好的，但是事与愿违。经过测试后发现，好家伙，<code>removeAttribute</code>方法确实把内存中的session中的属性删除了，但是更新到redis后，发现只是在sessionMap只把对应属性的value设置成了null：</p>
 <p><img src="https://user-images.githubusercontent.com/37146904/231990280-c811d874-2904-4139-a6ea-68c8f8ec4454.png" alt="image" /></p>
-<p>我对这样的行为感到奇怪，于是找到了一个issue：  <a href="https://github.com/spring-projects/spring-session/issues/1331">https://github.com/spring-projects/spring-session/issues/1331</a></p>
+<p>我对这样的行为感到奇怪，于是找到了一个issue：<a href="https://github.com/spring-projects/spring-session/issues/1331%E3%80%82">https://github.com/spring-projects/spring-session/issues/1331。</a></p>
 <p>没办法，我尝试在获取一次session中这个属性的值之后就删除这个属性，代码like下面这样：</p>
 <pre><code class="language-java">// 唯一一次的获取session中这个属性的值
 request.getSession().removeAttribute()
@@ -66,7 +66,7 @@ redisCacheHashService.sessionHmDelete(request.getSession().getId(), attrName)
 </ol>
 <p>但是spring-session的配置不是说改就能改的，需要权衡可能对现有业务的影响。所以改配置也不是明智之举。</p>
 <p>那么至于<code>RedisFlushMode</code>为<code>ON_SAVE</code>的情况下，什么时候才会调用<code>saveDelta</code>方法呢？这个问题我就没有深入研究下去了，暂时没有测试出来，那天有时间了再研究吧。</p>
-]]></content><link href="https://github.com/ParadiseWitch/gitblog/issues/4" rel="alternate"/><category term="技术"/><published>2023-04-14T08:47:44+00:00</published></entry><entry><id>https://github.com/ParadiseWitch/gitblog/issues/1</id><title>2023 OKR</title><updated>2023-04-14T08:52:08.748443+00:00</updated><content type="html"><![CDATA[<h1>2023 OKR</h1>
+]]></content><link href="https://github.com/ParadiseWitch/gitblog/issues/4" rel="alternate"/><category term="技术"/><published>2023-04-14T08:47:44+00:00</published></entry><entry><id>https://github.com/ParadiseWitch/gitblog/issues/1</id><title>2023 OKR</title><updated>2023-04-14T09:16:19.955013+00:00</updated><content type="html"><![CDATA[<h1>2023 OKR</h1>
 <h2>奖励</h2>
 <p>60: switch
 75: hhkb
