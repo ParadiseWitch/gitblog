@@ -38,7 +38,7 @@ request.getSession().removeAttribute()
 
 ![image](https://user-images.githubusercontent.com/37146904/231990280-c811d874-2904-4139-a6ea-68c8f8ec4454.png)
 
-我对这样的行为感到奇怪，于是找到了一个issue：https://github.com/spring-projects/spring-session/issues/1331。
+我对这样的行为感到奇怪，于是找到了一个issue：spring-session/issues/1331。
 
 没办法，我尝试在获取一次session中这个属性的值之后就删除这个属性，代码like下面这样：
 
